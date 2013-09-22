@@ -12,7 +12,13 @@ component install bloodhound/table
 
 ## API
 
-...
+#### new Table(el, collection, view)
+
+#### table#setCollection(collection)
+
+#### table#addRow(model, index)
+
+#### table#removeRow(index)
 
 ## License
 
