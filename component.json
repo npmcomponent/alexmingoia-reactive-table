@@ -1,0 +1,16 @@
+{
+  "name": "table",
+  "repo": "bloodhound/table",
+  "description": "Table component with sorting, searching, and manipulation.",
+  "version": "0.1.0",
+  "keywords": ["table", "sort", "sorting"],
+  "dependencies": {},
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": [
+    "index.js"
+  ],
+  "styles": [
+    "table.css"
+  ]
+}
