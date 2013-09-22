@@ -32,6 +32,19 @@ function View(model) {
 var table = new Table(document.createElement('table'), users, View);
 ```
 
+Results in a reactive table:
+
+```html
+<table>
+  <thead>
+    <tr><th>id</th><th>name</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td>alex</td></tr>
+  </tbody>
+</table>
+```
+
 #### table#setCollection(collection)
 
 Set table collection with given `collection`. Removes all rows.
