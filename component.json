@@ -1,6 +1,6 @@
 {
-  "name": "table",
-  "repo": "bloodhound/table",
+  "name": "reactive-table",
+  "repo": "alexmingoia/reactive-table",
   "description": "Reactive table component with sorting, filtering, and paging.",
   "version": "0.1.0",
   "keywords": [
@@ -10,8 +10,7 @@
     "paging"
   ],
   "dependencies": {
-    "component/reactive": "*",
-    "component/assert": "*"
+    "component/reactive": "*"
   },
   "development": {
     "component/assert": "*"
