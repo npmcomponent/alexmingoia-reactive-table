@@ -1,10 +1,12 @@
 {
   "name": "table",
   "repo": "bloodhound/table",
-  "description": "Table component with sorting, searching, and manipulation.",
+  "description": "Reactive table component with sorting, filtering, and paging.",
   "version": "0.1.0",
-  "keywords": ["table", "sort", "sorting"],
-  "dependencies": {},
+  "keywords": ["table", "sort", "sorting", "paging"],
+  "dependencies": {
+    "component/reactive": "*"
+  },
   "license": "MIT",
   "main": "index.js",
   "scripts": [

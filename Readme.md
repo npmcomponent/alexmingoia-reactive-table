@@ -1,18 +1,19 @@
-
 # table
 
-  Table component with sorting, searching, and manipulation.
+Table component with sorting, filtering, and paging.
 
 ## Installation
 
-  Install with [component(1)](http://component.io):
+Install with [component(1)](http://component.io):
 
-    $ component install bloodhound/table
+```sh
+component install bloodhound/table
+```
 
 ## API
 
-
+...
 
 ## License
 
-  MIT
+MIT
