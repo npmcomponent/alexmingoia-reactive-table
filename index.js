@@ -1,9 +1,9 @@
 /**
- * table
+ * reactive-table
  *
  * Reactive table component with sorting, filtering, and paging.
  *
- * @link https://github.com/bloodhound/table
+ * @link https://github.com/alexmingoia/reactive-table
  */
 
 /**
@@ -13,10 +13,10 @@
 var reactive = require('reactive');
 
 /**
- * Export `Table`
+ * Export `ReactiveTable`
  */
 
-module.exports = Table;
+module.exports = ReactiveTable;
 
 /**
  * Create a new reactive table from given `el`, `collection`, and `view`.
@@ -24,14 +24,15 @@ module.exports = Table;
  * @param {HTMLElement} el
  * @param {Array} collection
  * @param {Function} view
- * @return {Table}
+ * @return {ReactiveTable}
  * @api public
  */
 
-function Table(el, collection, view) {
+function ReactiveTable(el, collection, view) {
   this.el = el;
   this.collection;
-  this.view = view;
+  this.columns = [];
+  this.view = view || function(model) { return model; };
   // Create thead
   var thead = this.el.getElementsByTagName('thead');
   if (!thead.length) {
@@ -52,17 +53,28 @@ function Table(el, collection, view) {
  * Set collection.
  *
  * @param {Array} collection
- * @return {Table}
+ * @return {ReactiveTable}
  * @api public
  */
 
-Table.prototype.setCollection = function(collection) {
+ReactiveTable.prototype.setCollection = function(collection) {
   this.collection = collection;
   // Remove previous rows
   this.removeAllRows();
   // Add new rows
-  for (var model in collection) {
-    this.addRow(model);
+  for (var len = collection.length, i=0; i<len; i++) {
+    this.addRow(collection[i]);
+  }
+  // Update thead
+  var thead = this.el.childNodes[0];
+  while (thead.hasChildNodes()) {
+    thead.removeChild(thead.lastChild);
+  }
+  thead.appendChild(document.createElement('tr'));
+  for (var len = this.columns.length, i=0; i<len; i++) {
+    var th = document.createElement('th');
+    th.innerHTML = this.columns[i];
+    thead.childNodes[0].appendChild(th);
   }
   return this;
 };
@@ -72,12 +84,26 @@ Table.prototype.setCollection = function(collection) {
  *
  * @param {Object} model
  * @param {Number} index
- * @return {Table}
+ * @return {ReactiveTable}
  * @api private
  */
 
-Table.prototype.addRow = function(model, index) {
-  var row = new Row(model, this.view);
+ReactiveTable.prototype.addRow = function(model, index) {
+  // Generate model view
+  model = this.view(model);
+
+  // Update column list
+  this.columns = [];
+  for (var column in model) {
+    if (model.hasOwnProperty(column)) {
+      this.columns.push(column);
+    }
+  }
+
+  // Create reactive row
+  var row = new ReactiveTableRow(model);
+
+  // Insert row into table
   var tbody = this.el.childNodes[1];
   if (index) {
     tbody.insertBefore(row.el, tbody.childNodes[index]);
@@ -85,6 +111,7 @@ Table.prototype.addRow = function(model, index) {
   else {
     tbody.appendChild(row.el);
   }
+
   return this;
 };
 
@@ -92,11 +119,11 @@ Table.prototype.addRow = function(model, index) {
  * Remove row from table with given `index`.
  *
  * @param {Number} index
- * @return {Table}
+ * @return {ReactiveTable}
  * @api private
  */
 
-Table.prototype.removeRow = function(index) {
+ReactiveTable.prototype.removeRow = function(index) {
   var tbody = this.el.childNodes[1];
   tbody.removeChild(tbody.childNodes[index]);
   return this;
@@ -105,32 +132,51 @@ Table.prototype.removeRow = function(index) {
 /**
  * Remove all rows from table.
  *
- * @return {Table}
+ * @return {ReactiveTable}
  * @api private
  */
 
-Table.prototype.removeAllRows = function() {
+ReactiveTable.prototype.removeAllRows = function() {
   var tbody = this.el.childNodes[1];
-  for (var len = tbody.childNodes.length, i=0; i<len; i++) {
-    this.removeRow(i);
+  while (tbody.hasChildNodes()) {
+    tbody.removeChild(tbody.lastChild);
   }
   return this;
 };
 
 /**
- * Create a new table row with given `model` and `view`.
+ * Create a new table row with given `model`.
  *
  * @param {Object} model
- * @param {Function} view
- * @return {Row}
+ * @return {ReactiveTableRow}
  * @api private
  */
 
-function Row(model, view) {
-  this.el = document.createElement('tr');
-  this.model = model;
-  this.view = view;
+function ReactiveTableRow(model) {
+  var tr = document.createElement('tr');
+
+  // Add cells
+  for (var key in model) {
+    if (model.hasOwnProperty(key)) {
+      var td = document.createElement('td');
+      td.className = key;
+      if (typeof model[key] == 'function') {
+        model[key] = model[key]();
+      }
+      if (typeof model[key] == 'string' || typeof model[key] == 'number') {
+        td.innerHTML = model[key];
+      }
+      else {
+        td.appendChild(model[key]);
+      }
+      tr.appendChild(td);
+    }
+  }
+
   // Bind model to row element
-  reactive(this.el, this.model, this.view);
+  this.reactive = reactive(tr, model);
+
+  this.el = this.reactive.el;
+
   return this;
 };

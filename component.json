@@ -10,7 +10,8 @@
     "paging"
   ],
   "dependencies": {
-    "component/reactive": "*"
+    "component/reactive": "*",
+    "component/assert": "*"
   },
   "development": {
     "component/assert": "*"
