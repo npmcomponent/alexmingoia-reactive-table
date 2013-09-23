@@ -158,12 +158,13 @@ function ReactiveTableRow(model) {
   // Add cells
   for (var key in model) {
     if (model.hasOwnProperty(key)) {
+      var type = typeof model[key];
       var td = document.createElement('td');
       td.className = key;
-      if (typeof model[key] == 'function') {
+      if (type == 'function') {
         model[key] = model[key]();
       }
-      if (typeof model[key] == 'string' || typeof model[key] == 'number') {
+      if (!model[key] || type == 'string' || typeof type == 'number') {
         td.innerHTML = model[key];
       }
       else {
