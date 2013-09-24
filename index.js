@@ -32,19 +32,18 @@ module.exports = ReactiveTable;
  */
 
 function ReactiveTable(collection, view) {
-  this.el = document.createElement('div');
+  this.el = document.createElement('table');
   this.collection;
   this.columns = [];
   this.view = view || function(model) { return model; };
   // Create table
-  this.el.table = document.createElement('table');
-  this.el.appendChild(this.el.table);
+  this.el = document.createElement('table');
   // Create thead
   this.el.thead = document.createElement('thead');
-  this.el.table.appendChild(this.el.thead);
+  this.el.appendChild(this.el.thead);
   // Create tbody
   this.el.tbody = document.createElement('tbody');
-  this.el.table.appendChild(this.el.tbody);
+  this.el.appendChild(this.el.tbody);
   // Set collection
   this.setCollection(collection);
 };
