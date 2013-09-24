@@ -4,10 +4,7 @@
   "description": "Reactive table component. Create a table from a given collection and view. Each row in the table is created by applying the view to each model, and then passing that to reactive.",
   "version": "0.1.0",
   "keywords": [
-    "table",
-    "sort",
-    "sorting",
-    "paging"
+    "table", "reactive"
   ],
   "dependencies": {
     "component/reactive": "*"
