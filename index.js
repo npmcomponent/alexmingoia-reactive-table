@@ -88,7 +88,7 @@ ReactiveTable.prototype.setCollection = function(collection) {
 
 ReactiveTable.prototype.addRow = function(model, index) {
   // Generate model view
-  model = this.view(model);
+  model = new this.view(model);
 
   // Update column list
   this.columns = [];
@@ -159,7 +159,7 @@ function ReactiveTableRow(model) {
       if (type == 'function') {
         model[key] = model[key]();
       }
-      if (!model[key] || type == 'string' || typeof type == 'number') {
+      if (!model[key] || type == 'string' || type == 'number') {
         td.innerHTML = model[key];
       }
       else {
