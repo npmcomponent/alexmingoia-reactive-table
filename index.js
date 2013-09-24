@@ -1,7 +1,11 @@
 /**
  * reactive-table
  *
- * Reactive table component with sorting, filtering, and paging.
+ * Reactive table component. Create a table from a given collection and view.
+ * Each row in the table is created by applying the view to each model, and then
+ * passing that to reactive.
+ *
+ * Uses [component/reactive](https://github.com/component/reactive).
  *
  * @link https://github.com/alexmingoia/reactive-table
  */
@@ -19,32 +23,28 @@ var reactive = require('reactive');
 module.exports = ReactiveTable;
 
 /**
- * Create a new reactive table from given `el`, `collection`, and `view`.
+ * Create a new reactive table from given `collection`, and `view`.
  *
- * @param {HTMLElement} el
  * @param {Array} collection
  * @param {Function} view
  * @return {ReactiveTable}
  * @api public
  */
 
-function ReactiveTable(el, collection, view) {
-  this.el = el;
+function ReactiveTable(collection, view) {
+  this.el = document.createElement('div');
   this.collection;
   this.columns = [];
   this.view = view || function(model) { return model; };
+  // Create table
+  this.el.table = document.createElement('table');
+  this.el.appendChild(this.el.table);
   // Create thead
-  var thead = this.el.getElementsByTagName('thead');
-  if (!thead.length) {
-    thead = document.createElement('thead');
-    this.el.appendChild(thead);
-  }
+  this.el.thead = document.createElement('thead');
+  this.el.table.appendChild(this.el.thead);
   // Create tbody
-  var tbody = this.el.getElementsByTagName('tbody');
-  if (!tbody.length) {
-    tbody = document.createElement('tbody');
-    this.el.appendChild(tbody);
-  }
+  this.el.tbody = document.createElement('tbody');
+  this.el.table.appendChild(this.el.tbody);
   // Set collection
   this.setCollection(collection);
 };
@@ -66,15 +66,14 @@ ReactiveTable.prototype.setCollection = function(collection) {
     this.addRow(collection[i]);
   }
   // Update thead
-  var thead = this.el.childNodes[0];
-  while (thead.hasChildNodes()) {
-    thead.removeChild(thead.lastChild);
+  while (this.el.thead.hasChildNodes()) {
+    this.el.thead.removeChild(thead.lastChild);
   }
-  thead.appendChild(document.createElement('tr'));
+  this.el.thead.appendChild(document.createElement('tr'));
   for (var len = this.columns.length, i=0; i<len; i++) {
     var th = document.createElement('th');
     th.innerHTML = this.columns[i];
-    thead.childNodes[0].appendChild(th);
+    this.el.thead.childNodes[0].appendChild(th);
   }
   return this;
 };
@@ -104,12 +103,11 @@ ReactiveTable.prototype.addRow = function(model, index) {
   var row = new ReactiveTableRow(model);
 
   // Insert row into table
-  var tbody = this.el.childNodes[1];
   if (index) {
-    tbody.insertBefore(row.el, tbody.childNodes[index]);
+    this.el.tbody.insertBefore(row.el, this.el.tbody.childNodes[index]);
   }
   else {
-    tbody.appendChild(row.el);
+    this.el.tbody.appendChild(row.el);
   }
 
   return this;
@@ -124,8 +122,7 @@ ReactiveTable.prototype.addRow = function(model, index) {
  */
 
 ReactiveTable.prototype.removeRow = function(index) {
-  var tbody = this.el.childNodes[1];
-  tbody.removeChild(tbody.childNodes[index]);
+  this.el.tbody.removeChild(this.el.tbody.childNodes[index]);
   return this;
 };
 
@@ -137,9 +134,8 @@ ReactiveTable.prototype.removeRow = function(index) {
  */
 
 ReactiveTable.prototype.removeAllRows = function() {
-  var tbody = this.el.childNodes[1];
-  while (tbody.hasChildNodes()) {
-    tbody.removeChild(tbody.lastChild);
+  while (this.el.tbody.hasChildNodes()) {
+    this.el.tbody.removeChild(this.el.tbody.lastChild);
   }
   return this;
 };

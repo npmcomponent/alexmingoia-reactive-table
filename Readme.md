@@ -1,6 +1,8 @@
 # reactive-table
 
-Reactive table component with sorting, filtering, and paging.
+Create a reactive table from a given collection and view. Each row in the table is created by applying the view to each model, and then passing that to reactive.
+
+Uses [component/reactive](https://github.com/component/reactive).
 
 ## Installation
 
@@ -12,9 +14,9 @@ component install alexmingoia/reactive-table
 
 ## API
 
-#### new ReactiveTable(el, collection, view)
+#### new ReactiveTable(collection, view)
 
-Initialize a new table with given `el`, `collection`, and `view`.
+Initialize a new table with given `collection`, and `view`.
 
 ```javascript
 var ReactiveTable = require('reactive-table');
@@ -29,7 +31,9 @@ function view(model) {
   this.name = model.get('name');
 };
 
-var table = new ReactiveTable(document.createElement('table'), users, view);
+var table = new ReactiveTable(users, view);
+
+document.body.appendChild(table.el);
 ```
 
 Results in a reactive table:
@@ -87,6 +91,4 @@ Removes all rows from table.
 table.removeAllRows();
 ```
 
-## License
-
-MIT
+## MIT Licensed
