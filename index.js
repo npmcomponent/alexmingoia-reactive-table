@@ -66,7 +66,7 @@ ReactiveTable.prototype.setCollection = function(collection) {
   }
   // Update thead
   while (this.el.thead.hasChildNodes()) {
-    this.el.thead.removeChild(thead.lastChild);
+    this.el.thead.removeChild(this.el.thead.lastChild);
   }
   this.el.thead.appendChild(document.createElement('tr'));
   for (var len = this.columns.length, i=0; i<len; i++) {
