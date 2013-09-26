@@ -21,6 +21,8 @@ Initialize a new table with given `collection`, and `view`.
 ```javascript
 var ReactiveTable = require('reactive-table');
 
+var el = document.createElement('table');
+
 var users = [{
   id: 1,
   name: "alex"
@@ -31,7 +33,7 @@ function view(model) {
   this.name = model.get('name');
 };
 
-var table = new ReactiveTable(users, view);
+var table = new ReactiveTable(el, users, view);
 
 document.body.appendChild(table.el);
 ```
