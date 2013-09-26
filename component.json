@@ -2,7 +2,7 @@
   "name": "reactive-table",
   "repo": "alexmingoia/reactive-table",
   "description": "Reactive table component. Create a table from a given collection and view. Each row in the table is created by applying the view to each model, and then passing that to reactive.",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "keywords": [
     "table", "reactive"
   ],
