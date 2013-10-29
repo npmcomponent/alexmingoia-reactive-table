@@ -34,6 +34,7 @@ module.exports = ReactiveTable;
 
 function ReactiveTable(table, collection, view) {
   this.el = document.createElement('table');
+  this.rows = [];
   this.collection;
   this.view = view || function(model) { return model; };
   this.el = table || document.createElement('table');
@@ -71,6 +72,7 @@ function ReactiveTable(table, collection, view) {
  */
 
 ReactiveTable.prototype.setCollection = function(collection) {
+  this.rows = [];
   this.collection = collection;
   // Remove previous rows
   this.removeAllRows();
@@ -95,6 +97,7 @@ ReactiveTable.prototype.addRow = function(model, index) {
 
   // Generate model view
   model = new this.view(model);
+  this.rows.push(model);
 
   if (this.rowTpl) {
     row.innerHTML = this.rowTpl;
