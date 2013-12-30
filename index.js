@@ -118,7 +118,7 @@ ReactiveTable.prototype.addRow = function(model, index) {
         else {
           td.appendChild(model[key]);
         }
-        tr.appendChild(td);
+        row.appendChild(td);
       }
     }
   }
