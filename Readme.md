@@ -1,3 +1,4 @@
+*This repository is a mirror of the [component](http://component.io) module [alexmingoia/reactive-table](http://github.com/alexmingoia/reactive-table). It has been modified to work with NPM+Browserify. You can install it using the command `npm install npmcomponent/alexmingoia-reactive-table`. Please do not open issues or send pull requests against this repo. If you have issues with this repo, report it to [npmcomponent](https://github.com/airportyh/npmcomponent).*
 # reactive-table
 
 Create a reactive table from a given collection and view. Each row in the table is created by applying the view to each model, and then passing that to reactive.

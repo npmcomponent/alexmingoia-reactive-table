@@ -14,7 +14,7 @@
  * Dependencies
  */
 
-var reactive = require('reactive');
+var reactive = require('component-reactive');
 
 /**
  * Export `ReactiveTable`
